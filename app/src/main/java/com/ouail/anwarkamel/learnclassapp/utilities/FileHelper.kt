@@ -1,6 +1,8 @@
 package com.ouail.anwarkamel.learnclassapp.utilities
 
+import android.app.Application
 import android.content.Context
+import java.io.File
 
 class FileHelper {
     companion object {
@@ -17,6 +19,23 @@ class FileHelper {
                 it.bufferedReader().use {
                     it.readText()
                 }
+            }
+        }
+
+        fun saveTextToFile(app: Application, json: String?) {
+            // save as file use  : app.fileDir
+            // save to cache use : app.cacheDir
+            // save to external file : getExternalFilesDir()
+            val file = File(app.getExternalFilesDir("monsters"), "monsters.json")
+            file.writeText(json ?: "", Charsets.UTF_8)
+        }
+
+        fun readTextFromFile(app: Application): String? {
+            val file = File(app.getExternalFilesDir("monsters"), "monsters.json")
+            return if (file.exists()) {
+                file.readText()
+            } else {
+                null
             }
         }
     }
